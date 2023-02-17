@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         agent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        floorRange = GameObject.Find("TestPlane").GetComponent<Renderer>().bounds;
+        floorRange = GameObject.Find("Plane").GetComponent<Renderer>().bounds;
         randDest();
     }
 

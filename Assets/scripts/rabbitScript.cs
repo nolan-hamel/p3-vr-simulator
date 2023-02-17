@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class rabbitScript : MonoBehaviour
 {
-    public UnityEvent rabbitEatEvent;
+    //public UnityEvent rabbitEatEvent;
 
     public void DestroySelf()
     {
@@ -15,7 +15,8 @@ public class rabbitScript : MonoBehaviour
     {
         if(collision.gameObject.tag == "Carrot")
         {
-            rabbitEatEvent.Invoke();
+            //rabbitEatEvent.Invoke();
+            Destroy(collision.gameObject);
         }
     }
 }

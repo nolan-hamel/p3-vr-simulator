@@ -126,7 +126,8 @@ MonoBehaviour:
   rabbitEatEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5181319361432698885, guid: 106cd0e46d7699743abca23c6799a627,
+          type: 3}
         m_TargetAssemblyTypeName: carrotScript, Assembly-CSharp
         m_MethodName: DestroySelf
         m_Mode: 1

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class wolfScript : MonoBehaviour
 {
-    public UnityEvent wolfEatEvent;
+    //public UnityEvent wolfEatEvent;
     public void DestroySelf()
     {
         Destroy(this.gameObject);
@@ -14,7 +14,8 @@ public class wolfScript : MonoBehaviour
     {
         if(collision.gameObject.tag == "Rabbit")
         {
-            wolfEatEvent.Invoke();
+            //wolfEatEvent.Invoke();
+            Destroy(collision.gameObject);
         }
     }
 }

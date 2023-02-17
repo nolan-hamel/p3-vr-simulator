@@ -126,7 +126,8 @@ MonoBehaviour:
   wolfEatEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4015472160423535574, guid: 29fb5f8ab8780694c82bb7d7cc83a575,
+          type: 3}
         m_TargetAssemblyTypeName: rabbitScript, Assembly-CSharp
         m_MethodName: DestroySelf
         m_Mode: 1
