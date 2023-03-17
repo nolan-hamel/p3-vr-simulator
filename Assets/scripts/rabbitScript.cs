@@ -12,7 +12,7 @@ public class rabbitScript : MonoBehaviour
     public float hungerLevel;
     public float RabbitHungerValue = 50;
     public List<GameObject> huntable;
-    private bool flag = false;
+    public bool flag = false;
     private UnityEngine.AI.NavMeshAgent agent = null;
     private Vector3 dest;
 
@@ -56,6 +56,8 @@ public class rabbitScript : MonoBehaviour
             }
             //rabbitEatEvent.Invoke();
             Destroy(collision.gameObject);
+            huntable.Remove(collision.gameObject);
+            flag = false;
         }
     }
 
@@ -85,12 +87,19 @@ public class rabbitScript : MonoBehaviour
         Vector3 position = transform.position;
         foreach (GameObject t in huntable)
         {
-            Vector3 diff = t.transform.position - position;
-            float curDistance = diff.sqrMagnitude;
-            if (curDistance < distance)
+            if(gameObject != null)
             {
-                closest = t.transform;
-                distance = curDistance;
+                Vector3 diff = t.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < distance)
+                {
+                    closest = t.transform;
+                    distance = curDistance;
+                }
+            }
+            else
+            {
+                huntable.Remove(t);
             }
         }
         dest = new Vector3(closest.position.x, closest.position.y, closest.position.z);
