@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 6978696602495591160}
   - component: {fileID: 6978696602495591167}
   - component: {fileID: 6978696602495591166}
-  m_Layer: 0
+  - component: {fileID: 3251739313179603461}
+  m_Layer: 6
   m_Name: TestWolfPreFab
   m_TagString: Wolf
   m_Icon: {fileID: 0}
@@ -123,22 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61962f1b7eaf548b18450aec4272de02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wolfEatEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4015472160423535574, guid: 29fb5f8ab8780694c82bb7d7cc83a575,
-          type: 3}
-        m_TargetAssemblyTypeName: rabbitScript, Assembly-CSharp
-        m_MethodName: DestroySelf
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!195 &6978696602495591160
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -200,3 +185,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &3251739313179603461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978696602495591142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9996b252fb97b2949adf49dc1fb4d9fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
