@@ -8,16 +8,21 @@ public class wolfScript : MonoBehaviour
     public float WolfHungerValue;
     public float hungerFrequency;
     public float hungerLevel;
-    public List<GameObject> huntable;
-    private bool flag = false;
     private UnityEngine.AI.NavMeshAgent agent = null;
     private Vector3 dest;
     Transform closest = null;
+    public float radius;
+    [Range(0, 360)]
+    public float angle;
+    public LayerMask targetMask;
+    public LayerMask obstructionMask;
+    public bool canSeeRabbit;
 
     void Start()
     {
         agent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
         InvokeRepeating("Hunger", 0, hungerFrequency);
+        StartCoroutine(FOVRoutine());
     }
 
     // Update is called once per frame
@@ -27,17 +32,31 @@ public class wolfScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else if (hungerLevel < 50 && !flag)
+    }
+
+    private IEnumerator FOVRoutine()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.2f);
+
+        while (true)
         {
-            //SeekRabbit();
+            yield return wait;
+            if(hungerLevel < 50)
+            {
+                FieldOfViewCheck();
+            }
+            
         }
-        else if (flag)
+    }
+
+    private void FieldOfViewCheck()
+    {
+        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
+
+        if (rangeChecks.Length != 0)
         {
-            /*dest = new Vector3(closest.position.x, closest.position.y, closest.position.z);
-            UnityEngine.AI.NavMeshHit hit;
-            float distanceToCheck = 1;
-            UnityEngine.AI.NavMesh.SamplePosition(dest, out hit, distanceToCheck, UnityEngine.AI.NavMesh.AllAreas);
-            agent.SetDestination(hit.position);*/
+            Transform target = getClosest(rangeChecks);
+            SeekRabbit(closest);
         }
     }
 
@@ -55,37 +74,22 @@ public class wolfScript : MonoBehaviour
     {
         if(collision.gameObject.tag == "Rabbit")
         {
+            if (collision.transform.TryGetComponent(out rabbitScript val))
+            {
+                hungerLevel = (hungerLevel + val.RabbitHungerValue) % 100;
+                hungerFrequency = Random.Range(1, 5);
+            }
             //wolfEatEvent.Invoke();
             Destroy(collision.gameObject);
-            flag = false;
+
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private Transform getClosest(Collider[] x)
     {
-        if (other.gameObject.tag == "Rabbit")
-        {
-            //huntable.Add(other.gameObject);
-            //other.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
-        }
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Rabbit")
-        {
-            //huntable.Remove(other.gameObject);
-            //other.gameObject.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-        }
-    }
-
-    private void SeekRabbit()
-    {
-        
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
-        foreach (GameObject t in huntable)
+        foreach (Collider t in x)
         {
             Vector3 diff = t.transform.position - position;
             float curDistance = diff.sqrMagnitude;
@@ -95,11 +99,16 @@ public class wolfScript : MonoBehaviour
                 distance = curDistance;
             }
         }
+        return closest;
+    }
+
+
+    private void SeekRabbit(Transform closest)
+    {
         dest = new Vector3(closest.position.x, closest.position.y, closest.position.z);
         UnityEngine.AI.NavMeshHit hit;
         float distanceToCheck = 1;
         UnityEngine.AI.NavMesh.SamplePosition(dest, out hit, distanceToCheck, UnityEngine.AI.NavMesh.AllAreas);
         agent.SetDestination(hit.position);
-        flag = true;
     }
 }

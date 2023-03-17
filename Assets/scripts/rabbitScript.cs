@@ -9,6 +9,7 @@ public class rabbitScript : MonoBehaviour
     //public UnityEvent rabbitEatEvent;
 
     public float hungerFrequency;
+    private float origHungerFrequency;
     public float hungerLevel;
     public float RabbitHungerValue = 50;
     public List<GameObject> huntable;
@@ -18,6 +19,7 @@ public class rabbitScript : MonoBehaviour
 
     void Start()
     {
+        origHungerFrequency = hungerFrequency;
         agent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
         InvokeRepeating("Hunger", 0, hungerFrequency);
     }
@@ -25,6 +27,10 @@ public class rabbitScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(hungerFrequency != origHungerFrequency)
+        {
+            InvokeRepeating("Hunger", 0, hungerFrequency);
+        }
         if (hungerLevel == 0)
         {
             Destroy(gameObject);
@@ -52,7 +58,7 @@ public class rabbitScript : MonoBehaviour
             if(collision.transform.TryGetComponent(out carrotScript val))
             {
                 hungerLevel = (hungerLevel + val.HungerValue) % 100;
-                hungerFrequency = Random.Range(0, 5);
+                hungerFrequency = Random.Range(1, 5);
             }
             //rabbitEatEvent.Invoke();
             Destroy(collision.gameObject);
