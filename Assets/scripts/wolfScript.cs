@@ -29,15 +29,15 @@ public class wolfScript : MonoBehaviour
         }
         else if (hungerLevel < 50 && !flag)
         {
-            SeekRabbit();
+            //SeekRabbit();
         }
         else if (flag)
         {
-            dest = new Vector3(closest.position.x, closest.position.y, closest.position.z);
+            /*dest = new Vector3(closest.position.x, closest.position.y, closest.position.z);
             UnityEngine.AI.NavMeshHit hit;
             float distanceToCheck = 1;
             UnityEngine.AI.NavMesh.SamplePosition(dest, out hit, distanceToCheck, UnityEngine.AI.NavMesh.AllAreas);
-            agent.SetDestination(hit.position);
+            agent.SetDestination(hit.position);*/
         }
     }
 
@@ -65,8 +65,8 @@ public class wolfScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Rabbit")
         {
-            huntable.Add(other.gameObject);
-            other.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
+            //huntable.Add(other.gameObject);
+            //other.gameObject.GetComponent<Renderer>().material.color = new Color(0, 255, 0);
         }
 
     }
@@ -75,8 +75,8 @@ public class wolfScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Rabbit")
         {
-            huntable.Remove(other.gameObject);
-            other.gameObject.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+            //huntable.Remove(other.gameObject);
+            //other.gameObject.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
         }
     }
 
