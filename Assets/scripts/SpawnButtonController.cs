@@ -13,6 +13,7 @@ public class SpawnButtonController : MonoBehaviour
     // config
     [SerializeField] private float spawnHeight = 0.1f;
     [SerializeField] private float distanceToCheck = 25f;
+    
 
     public void SpawnCarrotRandomly()
     {
