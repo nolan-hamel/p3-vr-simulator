@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 4015472160423535571}
   - component: {fileID: 4015472160423535568}
   - component: {fileID: 4015472160423535569}
-  - component: {fileID: -6171715631750837068}
-  m_Layer: 6
+  - component: {fileID: -6496328076714540981}
+  m_Layer: 0
   m_Name: TestRabbitPreFab
   m_TagString: Rabbit
   m_Icon: {fileID: 0}
@@ -124,6 +124,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d0cd828f0874da1be84146bc32060d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hungerFrequency: 0
+  hungerLevel: 0
+  RabbitHungerValue: 50
+  huntable: []
 --- !u!195 &4015472160423535571
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -185,15 +189,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &-6171715631750837068
-MonoBehaviour:
+--- !u!135 &-6496328076714540981
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4015472160423535577}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9996b252fb97b2949adf49dc1fb4d9fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 3
+  m_Radius: 15
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
