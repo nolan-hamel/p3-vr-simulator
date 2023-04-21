@@ -2,35 +2,115 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
+using Unity.AI;
+using UnityEngine.AI;
 public class wolfScript : MonoBehaviour
 {
-    public float WolfHungerValue;
+
     public float hungerFrequency;
+    private float prevHungerFrequency;
     public float hungerLevel;
-    private UnityEngine.AI.NavMeshAgent agent = null;
+    public float hungerOrigLevel;
+    public float WolfHungerValue;
+    private NavMeshAgent agent = null;
     private Vector3 dest;
-    Transform closest = null;
+    public GameObject myPrefab;
+    public int breedTimer;
+    public int breedOrig;
     public float radius;
     [Range(0, 360)]
     public float angle;
-    public LayerMask targetMask;
+    private LayerMask targetMask;
     public LayerMask obstructionMask;
-    public bool canSeeRabbit;
+    private Transform closest = null;
+    //breeding and age stuff
+    private bool female = true;
+    public int age;
+    public int maxAge;
+
+    private void Awake()
+    {
+        breedTimer = breedOrig;
+        hungerLevel = hungerOrigLevel;
+        age = maxAge;
+        int check = Random.Range(0, 2);
+        if (check == 0) female = false;
+        else female = true;
+
+    }
 
     void Start()
     {
+        prevHungerFrequency = hungerFrequency;
         agent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
         InvokeRepeating("Hunger", 0, hungerFrequency);
+        InvokeRepeating("Timer", 0, 1);
+        InvokeRepeating("Age", 0, 1);
         StartCoroutine(FOVRoutine());
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (hungerFrequency != prevHungerFrequency)
+        {
+            prevHungerFrequency = hungerFrequency;
+            InvokeRepeating("Hunger", 0, hungerFrequency);
+        }
         if (hungerLevel == 0)
         {
-            Destroy(gameObject);
+            Debug.Log("hunger level");
+            Destroy(this.gameObject);
+        }
+    }
+
+    public void DestroySelf()
+    {
+        Debug.Log("destroySelf method");
+        Destroy(this.gameObject);
+    }
+
+    //timers
+
+    private void Hunger()
+    {
+        hungerLevel -= 1;
+    }
+
+    private void Timer()
+    {
+        breedTimer -= 1;
+        if (breedTimer == 0 && hungerLevel >= 50 && female)
+        {
+            Transform n = this.transform;
+            n.position = new Vector3(n.position.x, n.position.y, n.position.z + 3);
+            Instantiate(myPrefab, n.position, Quaternion.identity);
+            breedTimer = breedOrig;
+        }
+    }
+
+    private void Age()
+    {
+        age -= 1;
+        if (age == 0)
+        {
+            Debug.Log("age");
+            DestroySelf();
+        }
+    }
+
+    //hunting
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Rabbit")
+        {
+            if (collision.transform.TryGetComponent(out carrotScript val))
+            {
+                hungerLevel = hungerLevel + val.HungerValue;
+                if (hungerLevel > 100) hungerLevel = 100;
+                hungerFrequency = Random.Range(1, 5);
+            }
+            Destroy(collision.gameObject);
         }
     }
 
@@ -41,51 +121,26 @@ public class wolfScript : MonoBehaviour
         while (true)
         {
             yield return wait;
-            if(hungerLevel < 50)
+            if (hungerLevel < 60)
             {
                 FieldOfViewCheck();
             }
-            
         }
     }
 
     private void FieldOfViewCheck()
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-
+        Collider[] rangeChecks;
+        targetMask = 1 << 7;
+        rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
         if (rangeChecks.Length != 0)
         {
-            Transform target = getClosest(rangeChecks);
-            SeekRabbit(closest);
+            getClosest(rangeChecks);
+            Seek();
         }
     }
 
-    private void Hunger()
-    {
-        hungerLevel -= 1;
-    }
-
-    //public UnityEvent wolfEatEvent;
-    public void DestroySelf()
-    {
-        Destroy(this.gameObject);
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Rabbit")
-        {
-            if (collision.transform.TryGetComponent(out rabbitScript val))
-            {
-                hungerLevel = (hungerLevel + val.RabbitHungerValue) % 100;
-                hungerFrequency = Random.Range(1, 5);
-            }
-            //wolfEatEvent.Invoke();
-            Destroy(collision.gameObject);
-
-        }
-    }
-
-    private Transform getClosest(Collider[] x)
+    private void getClosest(Collider[] x)
     {
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
@@ -99,16 +154,15 @@ public class wolfScript : MonoBehaviour
                 distance = curDistance;
             }
         }
-        return closest;
     }
 
-
-    private void SeekRabbit(Transform closest)
+    private void Seek()
     {
         dest = new Vector3(closest.position.x, closest.position.y, closest.position.z);
-        UnityEngine.AI.NavMeshHit hit;
+        NavMeshHit hit;
         float distanceToCheck = 1;
-        UnityEngine.AI.NavMesh.SamplePosition(dest, out hit, distanceToCheck, UnityEngine.AI.NavMesh.AllAreas);
+        NavMesh.SamplePosition(dest, out hit, distanceToCheck, NavMesh.AllAreas);
         agent.SetDestination(hit.position);
     }
 }
+

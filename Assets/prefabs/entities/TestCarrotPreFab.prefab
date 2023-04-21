@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5181319361432698884}
   - component: {fileID: 5181319361432698885}
   - component: {fileID: 5181319361432698880}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestCarrotPreFab
   m_TagString: Carrot
   m_Icon: {fileID: 0}
@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e2d777f0641a421f8fb4eddd7e0d011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HungerValue: 10
 --- !u!54 &5181319361432698880
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -16,8 +16,7 @@ GameObject:
   - component: {fileID: 4015472160423535571}
   - component: {fileID: 4015472160423535568}
   - component: {fileID: 4015472160423535569}
-  - component: {fileID: -6496328076714540981}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TestRabbitPreFab
   m_TagString: Rabbit
   m_Icon: {fileID: 0}
@@ -37,7 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4015472160423535573
 MeshFilter:
@@ -108,8 +107,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
+  m_Radius: 0.6
+  m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &4015472160423535574
@@ -124,10 +123,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d0cd828f0874da1be84146bc32060d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerFrequency: 0
-  hungerLevel: 0
+  hungerFrequency: 1
+  hungerLevel: 100
+  hungerOrigLevel: 100
   RabbitHungerValue: 50
-  huntable: []
+  myPrefab: {fileID: 4015472160423535577}
+  breedTimer: 10
+  breedOrig: 10
+  radius: 15
+  angle: 0
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  age: 200
+  maxAge: 200
 --- !u!195 &4015472160423535571
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -189,24 +198,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!135 &-6496328076714540981
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4015472160423535577}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 15
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
