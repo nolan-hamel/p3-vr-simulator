@@ -9,13 +9,13 @@ public class wolfScript : MonoBehaviour
 
     public float hungerFrequency;
     private float prevHungerFrequency;
-    public float hungerLevel;
+    private float hungerLevel;
     public float hungerOrigLevel;
     public float WolfHungerValue;
     private NavMeshAgent agent = null;
     private Vector3 dest;
     public GameObject myPrefab;
-    public int breedTimer;
+    private int breedTimer;
     public int breedOrig;
     public float radius;
     [Range(0, 360)]
@@ -25,7 +25,7 @@ public class wolfScript : MonoBehaviour
     private Transform closest = null;
     //breeding and age stuff
     private bool female = true;
-    public int age;
+    private int age;
     public int maxAge;
 
     private void Awake()
