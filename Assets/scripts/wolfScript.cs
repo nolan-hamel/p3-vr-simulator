@@ -41,7 +41,7 @@ public class wolfScript : MonoBehaviour
         while (true)
         {
             yield return wait;
-            if(hungerLevel < 50)
+            if(hungerLevel < 90)
             {
                 FieldOfViewCheck();
             }
