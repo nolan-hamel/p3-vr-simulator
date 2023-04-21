@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hungerFrequency: 0
-  hungerLevel: 0
+  hungerLevel: 100
   RabbitHungerValue: 50
   huntable: []
   flag: 0

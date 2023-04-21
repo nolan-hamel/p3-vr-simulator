@@ -8,6 +8,7 @@ public class RayGunController : MonoBehaviour
     [SerializeField] float fireRate = 15f;
     [SerializeField] LineRenderer shootLine;
     [SerializeField] float rayLingeringTime = 1f;
+    [SerializeField] AudioClip gunAudio;
 
     private float nextTimeToFire = 0f;
 
@@ -28,6 +29,7 @@ public class RayGunController : MonoBehaviour
     {
         if (Time.time >= nextTimeToFire)
         {
+            AudioSource.PlayClipAtPoint(gunAudio, transform.position);
             // fire rate update
             nextTimeToFire = Time.time + 1f / fireRate;
 
