@@ -17,7 +17,7 @@ public class SpawnOnCollision : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude >= spawnVelocityThreshold)
+        if (collision.relativeVelocity.magnitude >= spawnVelocityThreshold && collision.gameObject.tag == "ground")
         {
             for (int i = 0; i < numToSpawn; i++)
             {
