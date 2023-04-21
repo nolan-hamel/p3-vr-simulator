@@ -127,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WolfHungerValue: 0
   hungerFrequency: 0
-  hungerLevel: 0
+  hungerLevel: 100
   radius: 0
   angle: 0
   targetMask:

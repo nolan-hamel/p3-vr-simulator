@@ -388,7 +388,7 @@ Transform:
   - {fileID: 8387439440253119191}
   - {fileID: 8387439439343778020}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &8387439439141044316
 Rigidbody:
@@ -580,6 +580,7 @@ MonoBehaviour:
   fireRate: 15
   shootLine: {fileID: 8387439439141044313}
   rayLingeringTime: 1
+  gunAudio: {fileID: 8300000, guid: 2ffcfebf4af9a0d49a09e9be23ffcaeb, type: 3}
 --- !u!120 &8387439439141044313
 LineRenderer:
   serializedVersion: 2
