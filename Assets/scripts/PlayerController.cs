@@ -32,10 +32,10 @@ public class PlayerController : MonoBehaviour
         float rz = Random.Range(floorRange.min.z, floorRange.max.z);
         dest = new Vector3(rx, this.transform.position.y, rz);
         //agent.SetDestination(dest);
-        flag = false;
         UnityEngine.AI.NavMeshHit hit;
         float distanceToCheck = 10;
         UnityEngine.AI.NavMesh.SamplePosition(dest, out hit, distanceToCheck, UnityEngine.AI.NavMesh.AllAreas);
         agent.SetDestination(hit.position);
+        flag = false;
     }
 }
