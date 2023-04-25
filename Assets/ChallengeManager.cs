@@ -5,37 +5,40 @@ using UnityEngine.SceneManagement;
 
 public class ChallengeManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Assignable Values
+    [SerializeField] List<carrotScript> carrotValues;
+    [SerializeField] List<spawnCarrot> spawnCarrotValues;
+    [SerializeField] List<rabbitScript> rabbitValues;
+    [SerializeField] List<wolfScript> wolfValues;
 
-    [SerializeField] float wolfHungerLim;
-    [SerializeField] float wolfHungerRate;
-    [SerializeField] float wolfBreedingLim;
-    [SerializeField] float wolfAgeLim;
-    [SerializeField] float wolfSpeed;
-
-    [SerializeField] float rabbitHungerLim;
-    [SerializeField] float rabbitHungerRate;
-    [SerializeField] float rabbitBreedingLim;
-    [SerializeField] float rabbitAgeLim;
-    [SerializeField] float rabbitSpeed;
-
-    [SerializeField] float carrotBreedingRate;
-    [SerializeField] float carrotAgeLim;
-
+    // Active Values
+    public carrotScript activeCarrotValues;
+    public spawnCarrot activeSpawnCarrotValues;
+    public rabbitScript activeRabbitValues;
+    public wolfScript activewolfValues;
+    public int ActiveChallenge
+    {
+        get => _activeChallenge;
+        set
+        {
+            // setting value
+            _activeChallenge = value;
+            // setting challenge active values
+            activeCarrotValues = carrotValues[value];
+            activeSpawnCarrotValues= spawnCarrotValues[value];
+            activeRabbitValues = rabbitValues[value];
+            activewolfValues = wolfValues[value];
+        }
+    }
+    private int _activeChallenge;
 
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
         
-    }
-
-    public void GoToNextScene(int sceneId)
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + sceneId);
     }
 }

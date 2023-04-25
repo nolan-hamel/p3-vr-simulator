@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class carrotScript : MonoBehaviour
 {
-    public float HungerValue = 10;
+    public int hungerValue = 10;
 
     public void DestroySelf()
     {

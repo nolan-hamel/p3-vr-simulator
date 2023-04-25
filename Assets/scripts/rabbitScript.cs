@@ -6,34 +6,50 @@ using Unity.AI;
 using UnityEngine.AI;
 public class rabbitScript : MonoBehaviour
 {
-    //public UnityEvent rabbitEatEvent;
+    // Internally managed levels
+    private int hungerLevel;
+    private int breedingLevel;
+    private int age;
 
-    public float hungerFrequency;
-    private float prevHungerFrequency;
-    private float hungerLevel;
-    public float hungerOrigLevel;
-    public float RabbitHungerValue;
+    // Navigation
     private NavMeshAgent agent = null;
     private Vector3 dest;
-    public GameObject myPrefab;
-    private int breedTimer;
-    public int breedOrig;
-    public float radius;
-    [Range(0, 360)]
-    public float angle;
     private LayerMask targetMask;
-    public LayerMask obstructionMask;
     private Transform closest = null;
-    //breeding and age stuff
+
+    [SerializeField] float detectionRadius;
+    //[Range(0, 360)] // unused
+    //public float angle;
+    public LayerMask obstructionMask;
+
     private bool female = true;
-    private int age;
-    public int maxAge;
+
+    [SerializeField] GameObject offspringPrefab;
+
+    // Challenge Manager Fields
+    [SerializeField] ChallengeManager manager;
+
+    // Settable Levels
+    [SerializeField] int breedingHungerRequirement = 50;
+    [SerializeField] int hungerStartingLevel = 100;
+    [SerializeField] int breedingStartingLevel = 10;
+    [SerializeField] int maxAge = 200;
+    public int hungerValue = 10; // amount of hunger provided by eating
+
+    // Frequencies (unchangeable publicly because starting levels basically do that
+    private float breedingFrequency = 1;
+    private float agingFrequency = 1;
+    private float hungerFrequency = 1;
+
 
     private void Awake()
     {
-        breedTimer = breedOrig;
-        hungerLevel = hungerOrigLevel;
+        // assign starting levels
+        breedingLevel = breedingStartingLevel;
+        hungerLevel = hungerStartingLevel;
         age = maxAge;
+
+        // setting gender
         int check = Random.Range(0, 2);
         if (check == 0) female = false;
         else female = true;
@@ -42,26 +58,21 @@ public class rabbitScript : MonoBehaviour
 
     void Start()
     {
-        prevHungerFrequency = hungerFrequency;
+        // navigation
         agent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+        // setting up repeating routines
         InvokeRepeating("Hunger", 0, hungerFrequency);
-        InvokeRepeating("Timer", 0, 1);
-        InvokeRepeating("Age", 0, 1);
+        if (female)
+            InvokeRepeating("Breed", 0, breedingFrequency);
+        InvokeRepeating("Age", 0, agingFrequency);
+
         StartCoroutine(FOVRoutine());
     }
 
     void Update()
     {
-        if(hungerFrequency != prevHungerFrequency)
-        {
-            prevHungerFrequency = hungerFrequency;
-            InvokeRepeating("Hunger", 0, hungerFrequency);
-        }
-        if (hungerLevel == 0)
-        {
-            Debug.Log("hunger level");   
-            Destroy(this.gameObject);
-        }
+
     }
     
     public void DestroySelf()
@@ -75,17 +86,24 @@ public class rabbitScript : MonoBehaviour
     private void Hunger()
     {
         hungerLevel -= 1;
+        // die if no hunger
+        if (hungerLevel == 0)
+        {
+            Debug.Log("hunger level");
+            DestroySelf();
+        }
     }
 
-    private void Timer()
+    private void Breed()
     {
-        breedTimer -= 1;
-        if(breedTimer == 0 && hungerLevel >= 50 && female)
+        breedingLevel -= 1;
+        // reproduce if requirements right
+        if(breedingLevel == 0 && hungerLevel >= breedingHungerRequirement && female)
         {
             Transform n = this.transform;
             n.position = new Vector3(n.position.x, n.position.y, n.position.z + 3);
-            Instantiate(myPrefab, n.position, Quaternion.identity);
-            breedTimer = breedOrig;
+            Instantiate(offspringPrefab, n.position, Quaternion.identity);
+            breedingLevel = breedingStartingLevel;
         }
     }
 
@@ -99,22 +117,25 @@ public class rabbitScript : MonoBehaviour
         }
     }
 
-    //hunting
+    // Hunting
 
     private void OnCollisionEnter(Collision collision)
     {
+        // checking if something to eat
         if (collision.gameObject.tag == "Carrot")
         {
             if (collision.transform.TryGetComponent(out carrotScript val))
             {
-                hungerLevel = hungerLevel + val.HungerValue;
+                hungerLevel += val.hungerValue;
                 if (hungerLevel > 100) hungerLevel = 100;
-                hungerFrequency = Random.Range(1, 5);
+                //hungerFrequency = Random.Range(1, 5);
             }
             //rabbitEatEvent.Invoke();
             Destroy(collision.gameObject);
         }
     }
+
+    // Navigation
 
     private IEnumerator FOVRoutine()
     {
@@ -134,7 +155,7 @@ public class rabbitScript : MonoBehaviour
     {
         Collider[] rangeChecks;
         targetMask = 1 << 6;
-        rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
+        rangeChecks = Physics.OverlapSphere(transform.position, detectionRadius, targetMask);
         if (rangeChecks.Length != 0)
         {
             getClosest(rangeChecks);
@@ -166,5 +187,6 @@ public class rabbitScript : MonoBehaviour
         NavMesh.SamplePosition(dest, out hit, distanceToCheck, NavMesh.AllAreas);
         agent.SetDestination(hit.position);
     }
+
 }
 

@@ -7,31 +7,49 @@ using UnityEngine.AI;
 public class wolfScript : MonoBehaviour
 {
 
-    public float hungerFrequency;
-    private float prevHungerFrequency;
-    private float hungerLevel;
-    public float hungerOrigLevel;
-    public float WolfHungerValue;
+    // Internally managed levels
+    private int hungerLevel;
+    private int breedingLevel;
+    private int age;
+
+    // Navigation
     private NavMeshAgent agent = null;
     private Vector3 dest;
-    public GameObject myPrefab;
-    private int breedTimer;
-    public int breedOrig;
-    public float radius;
-    [Range(0, 360)]
-    public float angle;
     private LayerMask targetMask;
-    public LayerMask obstructionMask;
     private Transform closest = null;
-    //breeding and age stuff
+
+    [SerializeField] LayerMask obstructionMask;
+    [SerializeField] float radius;
+
+    // unused
+    //[Range(0, 360)]
+    //public float angle;
+
+
+    // Breeding
     private bool female = true;
-    private int age;
-    public int maxAge;
+
+    [SerializeField] GameObject offspringPrefab;
+
+    
+
+    // Settable Levels
+    [SerializeField] int hungerStartingLevel = 100;
+    [SerializeField] int maxAge = 200;
+    [SerializeField] int breedingStartingLevel;
+    public int WolfHungerValue= 100; // value provided when eaten
+
+    private float hungerFrequency = 1;
+    //private float prevHungerFrequency;
+    private float breedingFrequency = 1;
+    private float agingFrequency = 1;
+
+
 
     private void Awake()
     {
-        breedTimer = breedOrig;
-        hungerLevel = hungerOrigLevel;
+        breedingLevel = breedingStartingLevel;
+        hungerLevel = hungerStartingLevel;
         age = maxAge;
         int check = Random.Range(0, 2);
         if (check == 0) female = false;
@@ -41,26 +59,21 @@ public class wolfScript : MonoBehaviour
 
     void Start()
     {
-        prevHungerFrequency = hungerFrequency;
+        //prevHungerFrequency = hungerFrequency;
         agent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
         InvokeRepeating("Hunger", 0, hungerFrequency);
-        InvokeRepeating("Timer", 0, 1);
-        InvokeRepeating("Age", 0, 1);
+        InvokeRepeating("Breed", 0, breedingFrequency);
+        InvokeRepeating("Age", 0, agingFrequency);
         StartCoroutine(FOVRoutine());
     }
 
     void Update()
     {
-        if (hungerFrequency != prevHungerFrequency)
-        {
-            prevHungerFrequency = hungerFrequency;
-            InvokeRepeating("Hunger", 0, hungerFrequency);
-        }
-        if (hungerLevel == 0)
-        {
-            Debug.Log("hunger level");
-            Destroy(this.gameObject);
-        }
+        //if (hungerFrequency != prevHungerFrequency)
+        //{
+        //    prevHungerFrequency = hungerFrequency;
+        //    InvokeRepeating("Hunger", 0, hungerFrequency);
+        //} 
     }
 
     public void DestroySelf()
@@ -69,22 +82,27 @@ public class wolfScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    //timers
+    // Timers
 
     private void Hunger()
     {
         hungerLevel -= 1;
+        if (hungerLevel == 0)
+        {
+            Debug.Log("hunger level");
+            DestroySelf();
+        }
     }
 
-    private void Timer()
+    private void Breed()
     {
-        breedTimer -= 1;
-        if (breedTimer == 0 && hungerLevel >= 50 && female)
+        breedingLevel -= 1;
+        if (breedingLevel == 0 && hungerLevel >= 50 && female)
         {
             Transform n = this.transform;
             n.position = new Vector3(n.position.x, n.position.y, n.position.z + 3);
-            Instantiate(myPrefab, n.position, Quaternion.identity);
-            breedTimer = breedOrig;
+            Instantiate(offspringPrefab, n.position, Quaternion.identity);
+            breedingLevel = breedingStartingLevel;
         }
     }
 
@@ -98,15 +116,15 @@ public class wolfScript : MonoBehaviour
         }
     }
 
-    //hunting
+    // Hunting
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Rabbit")
         {
-            if (collision.transform.TryGetComponent(out carrotScript val))
+            if (collision.transform.TryGetComponent(out rabbitScript val))
             {
-                hungerLevel = hungerLevel + val.HungerValue;
+                hungerLevel = hungerLevel + val.hungerValue;
                 if (hungerLevel > 100) hungerLevel = 100;
                 hungerFrequency = Random.Range(1, 5);
             }
