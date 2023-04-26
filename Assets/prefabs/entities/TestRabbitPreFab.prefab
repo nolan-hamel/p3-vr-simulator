@@ -123,20 +123,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d0cd828f0874da1be84146bc32060d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerFrequency: 1
-  hungerLevel: 100
-  hungerOrigLevel: 100
-  RabbitHungerValue: 50
-  myPrefab: {fileID: 4015472160423535577}
-  breedTimer: 10
-  breedOrig: 10
-  radius: 15
-  angle: 0
+  detectionRadius: 0
   obstructionMask:
     serializedVersion: 2
     m_Bits: 0
-  age: 200
+  offspringPrefab: {fileID: 4015472160423535577}
+  manager: {fileID: 0}
+  breedingHungerRequirement: 50
+  hungerStartingLevel: 100
+  breedingStartingLevel: 10
   maxAge: 200
+  hungerValue: 10
 --- !u!195 &4015472160423535571
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -7,6 +7,8 @@ using UnityEngine.AI;
 public class wolfScript : MonoBehaviour
 {
 
+    [SerializeField] ChallengeManager manager;
+
     // Internally managed levels
     private int hungerLevel;
     private int breedingLevel;
@@ -25,19 +27,16 @@ public class wolfScript : MonoBehaviour
     //[Range(0, 360)]
     //public float angle;
 
-
     // Breeding
     private bool female = true;
-
     [SerializeField] GameObject offspringPrefab;
 
-    
-
     // Settable Levels
+    [SerializeField] int breedingHungerRequirement = 50;
     [SerializeField] int hungerStartingLevel = 100;
     [SerializeField] int maxAge = 200;
-    [SerializeField] int breedingStartingLevel;
-    public int WolfHungerValue= 100; // value provided when eaten
+    [SerializeField] int breedingStartingLevel = 50; // how many seconds that must be waited before can breed again
+    public int hungerValue = 100; // value provided when eaten
 
     private float hungerFrequency = 1;
     //private float prevHungerFrequency;
@@ -48,6 +47,16 @@ public class wolfScript : MonoBehaviour
 
     private void Awake()
     {
+        // getting challenge manager
+        manager = transform.parent.GetComponent<ChallengeManager>();
+
+        // assigning starting values based on challenge manager
+        breedingHungerRequirement = manager.activeChallenge.wolfBreedingHungerRequirement;
+        hungerStartingLevel = manager.activeChallenge.wolfHungerStartingLevel;
+        maxAge = manager.activeChallenge.wolfMaxAge;
+        breedingStartingLevel = manager.activeChallenge.wolfBreedingStartingLevel;
+        hungerValue = manager.activeChallenge.wolfHungerValue;
+
         breedingLevel = breedingStartingLevel;
         hungerLevel = hungerStartingLevel;
         age = maxAge;
@@ -97,12 +106,13 @@ public class wolfScript : MonoBehaviour
     private void Breed()
     {
         breedingLevel -= 1;
-        if (breedingLevel == 0 && hungerLevel >= 50 && female)
+        if (breedingLevel <= 0 && hungerLevel >= breedingHungerRequirement && female)
         {
             Transform n = this.transform;
             n.position = new Vector3(n.position.x, n.position.y, n.position.z + 3);
-            Instantiate(offspringPrefab, n.position, Quaternion.identity);
+            Instantiate(offspringPrefab, n.position, Quaternion.identity, manager.transform);
             breedingLevel = breedingStartingLevel;
+            Debug.Log($"{transform.name} reproduced!");
         }
     }
 
@@ -120,15 +130,17 @@ public class wolfScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Rabbit")
+        Debug.Log($"{transform.name} collided with {collision.gameObject.transform.name}");
+        if (collision.gameObject.CompareTag("Rabbit"))
         {
             if (collision.transform.TryGetComponent(out rabbitScript val))
             {
                 hungerLevel = hungerLevel + val.hungerValue;
-                if (hungerLevel > 100) hungerLevel = 100;
-                hungerFrequency = Random.Range(1, 5);
+                if (hungerLevel > hungerStartingLevel) hungerLevel = hungerStartingLevel;
+                //hungerFrequency = Random.Range(1, 5);
             }
             Destroy(collision.gameObject);
+            Debug.Log($"{transform.name} ate a rabbit!");
         }
     }
 

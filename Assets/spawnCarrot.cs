@@ -5,9 +5,18 @@ using UnityEngine.Events;
 
 public class spawnCarrot : MonoBehaviour
 {
+    [SerializeField] ChallengeManager manager;
+
     public GameObject myPrefab;
     public GameObject plane;
     public float spawnInterval;
+
+
+    private void Awake()
+    {
+        spawnInterval = manager.activeChallenge.carrotSpawnInterval;
+    }
+
     void Start()
     {
         InvokeRepeating("instantiatePrefab", 10.0f, spawnInterval);
@@ -25,6 +34,6 @@ public class spawnCarrot : MonoBehaviour
     private void instantiatePrefab()
     {
         Vector3 randomPoint = RandomPointInBounds(plane.GetComponent<MeshRenderer>().bounds);
-        Instantiate(myPrefab, randomPoint, Quaternion.identity);
+        Instantiate(myPrefab, randomPoint, Quaternion.identity, manager.transform);
     }
 }

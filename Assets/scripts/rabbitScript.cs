@@ -44,6 +44,16 @@ public class rabbitScript : MonoBehaviour
 
     private void Awake()
     {
+        // getting challenge manager
+        manager = transform.parent.GetComponent<ChallengeManager>();
+
+        // assigning starting values based on challenge manager
+        breedingHungerRequirement = manager.activeChallenge.rabbitBreedingHungerRequirement;
+        hungerStartingLevel = manager.activeChallenge.rabbitHungerStartingLevel;
+        maxAge = manager.activeChallenge.rabbitMaxAge;
+        breedingStartingLevel = manager.activeChallenge.rabbitBreedingStartingLevel;
+        hungerValue = manager.activeChallenge.rabbitHungerValue;
+
         // assign starting levels
         breedingLevel = breedingStartingLevel;
         hungerLevel = hungerStartingLevel;
@@ -98,12 +108,13 @@ public class rabbitScript : MonoBehaviour
     {
         breedingLevel -= 1;
         // reproduce if requirements right
-        if(breedingLevel == 0 && hungerLevel >= breedingHungerRequirement && female)
+        if(breedingLevel <= 0 && hungerLevel >= breedingHungerRequirement && female)
         {
             Transform n = this.transform;
             n.position = new Vector3(n.position.x, n.position.y, n.position.z + 3);
-            Instantiate(offspringPrefab, n.position, Quaternion.identity);
+            Instantiate(offspringPrefab, n.position, Quaternion.identity, manager.transform);
             breedingLevel = breedingStartingLevel;
+            Debug.Log($"{transform.name} reproduced!");
         }
     }
 
@@ -122,16 +133,17 @@ public class rabbitScript : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // checking if something to eat
-        if (collision.gameObject.tag == "Carrot")
+        if (collision.gameObject.CompareTag("Carrot"))
         {
             if (collision.transform.TryGetComponent(out carrotScript val))
             {
                 hungerLevel += val.hungerValue;
-                if (hungerLevel > 100) hungerLevel = 100;
+                if (hungerLevel > hungerStartingLevel) hungerLevel = hungerStartingLevel;
                 //hungerFrequency = Random.Range(1, 5);
             }
             //rabbitEatEvent.Invoke();
             Destroy(collision.gameObject);
+            Debug.Log($"{transform.name} ate a carrot!");
         }
     }
 

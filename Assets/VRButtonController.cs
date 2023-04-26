@@ -6,16 +6,20 @@ using UnityEngine.UI;
 
 public class VRButtonController : MonoBehaviour
 {
-    [SerializeField] Collider pressCollider;
+    // Configs
     [SerializeField] GameObject pushable;
     [SerializeField] float unpressedHeight = 0.125f;
     [SerializeField] float pressedHeight = 0.1f;
 
+    // Function Variables
+    private GameObject lastPresser;
+
+    [SerializeField] Vector3 teleportLocation = Vector3.zero;
+
+    // Events and States
     public UnityEvent onPress;
     public UnityEvent onRelease;
     public bool isPressed;
-
-    private GameObject presser;
 
     // Start is called before the first frame update
     void Start()
@@ -30,12 +34,25 @@ public class VRButtonController : MonoBehaviour
         
     }
 
+    public void TeleportTo()
+    {
+        if (lastPresser)
+        {
+            lastPresser.transform.position = teleportLocation;
+            Debug.Log($"teleporting to: {teleportLocation.x} {teleportLocation.y} {teleportLocation.z}");
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!isPressed)
         {
             pushable.transform.localPosition = new Vector3(0, pressedHeight, 0);
-            presser = other.gameObject;
+            lastPresser = other.gameObject;
+            while (lastPresser.transform.parent != null)
+            {
+                lastPresser = lastPresser.transform.parent.gameObject;
+            }
             onPress.Invoke();
             isPressed = true;
         }
@@ -43,16 +60,11 @@ public class VRButtonController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == presser)
+        if (other.gameObject == lastPresser)
         {
             pushable.transform.localPosition = new Vector3(0, unpressedHeight, 0);
             onRelease.Invoke();
             isPressed = false;
         }
-    }
-
-    public void Test()
-    {
-        Debug.Log("Button Working!");
     }
 }
