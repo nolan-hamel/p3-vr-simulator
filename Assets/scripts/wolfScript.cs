@@ -28,7 +28,7 @@ public class wolfScript : MonoBehaviour
     //public float angle;
 
     // Breeding
-    private bool female = true;
+    [SerializeField] bool female = false;
     [SerializeField] GameObject offspringPrefab;
 
     // Settable Levels
@@ -43,27 +43,9 @@ public class wolfScript : MonoBehaviour
     private float breedingFrequency = 1;
     private float agingFrequency = 1;
 
-
-
     private void Awake()
     {
-        // getting challenge manager
-        manager = transform.parent.GetComponent<ChallengeManager>();
-
-        // assigning starting values based on challenge manager
-        breedingHungerRequirement = manager.activeChallenge.wolfBreedingHungerRequirement;
-        hungerStartingLevel = manager.activeChallenge.wolfHungerStartingLevel;
-        maxAge = manager.activeChallenge.wolfMaxAge;
-        breedingStartingLevel = manager.activeChallenge.wolfBreedingStartingLevel;
-        hungerValue = manager.activeChallenge.wolfHungerValue;
-
-        breedingLevel = breedingStartingLevel;
-        hungerLevel = hungerStartingLevel;
-        age = maxAge;
-        int check = Random.Range(0, 2);
-        if (check == 0) female = false;
-        else female = true;
-
+  
     }
 
     void Start()
@@ -85,9 +67,34 @@ public class wolfScript : MonoBehaviour
         //} 
     }
 
+    private void OnEnable()
+    {
+        // getting challenge manager
+        if (!manager)
+        {
+            manager = transform.parent.GetComponent<ChallengeManager>();
+        }
+
+        // assigning starting values based on challenge manager
+        breedingHungerRequirement = manager.activeChallenge.wolfBreedingHungerRequirement;
+        hungerStartingLevel = manager.activeChallenge.wolfHungerStartingLevel;
+        maxAge = manager.activeChallenge.wolfMaxAge;
+        breedingStartingLevel = manager.activeChallenge.wolfBreedingStartingLevel;
+        hungerValue = manager.activeChallenge.wolfHungerValue;
+
+        breedingLevel = breedingStartingLevel;
+        hungerLevel = hungerStartingLevel;
+        age = maxAge;
+        if (!female)
+        {
+            int check = Random.Range(0, 2);
+            if (check == 0) female = false;
+            else female = true;
+        }
+    }
+
     public void DestroySelf()
     {
-        Debug.Log("destroySelf method");
         Destroy(this.gameObject);
     }
 
@@ -98,7 +105,6 @@ public class wolfScript : MonoBehaviour
         hungerLevel -= 1;
         if (hungerLevel == 0)
         {
-            Debug.Log("hunger level");
             DestroySelf();
         }
     }
@@ -112,7 +118,6 @@ public class wolfScript : MonoBehaviour
             n.position = new Vector3(n.position.x, n.position.y, n.position.z + 3);
             Instantiate(offspringPrefab, n.position, Quaternion.identity, manager.transform);
             breedingLevel = breedingStartingLevel;
-            Debug.Log($"{transform.name} reproduced!");
         }
     }
 
@@ -121,26 +126,23 @@ public class wolfScript : MonoBehaviour
         age -= 1;
         if (age == 0)
         {
-            Debug.Log("age");
             DestroySelf();
         }
     }
 
     // Hunting
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"{transform.name} collided with {collision.gameObject.transform.name}");
-        if (collision.gameObject.CompareTag("Rabbit"))
+        if (other.gameObject.CompareTag("Rabbit"))
         {
-            if (collision.transform.TryGetComponent(out rabbitScript val))
+            if (other.transform.TryGetComponent(out rabbitScript val))
             {
                 hungerLevel = hungerLevel + val.hungerValue;
                 if (hungerLevel > hungerStartingLevel) hungerLevel = hungerStartingLevel;
                 //hungerFrequency = Random.Range(1, 5);
             }
-            Destroy(collision.gameObject);
-            Debug.Log($"{transform.name} ate a rabbit!");
+            Destroy(other.gameObject);
         }
     }
 

@@ -23,5 +23,6 @@ public class Challenge : ScriptableObject
 
     // Carrot Values
     public int carrotHungerValue;
+    public int carrotMaxAge;
     public float carrotSpawnInterval;
 }

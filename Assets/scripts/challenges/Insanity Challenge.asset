@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd9518add336dc418a0581c9622e3d6, type: 3}
+  m_Name: Insanity Challenge
+  m_EditorClassIdentifier: 
+  wolfHungerStartingLevel: 50
+  wolfMaxAge: 30
+  wolfBreedingStartingLevel: 15
+  wolfBreedingHungerRequirement: 5
+  wolfHungerValue: 0
+  rabbitHungerStartingLevel: 50
+  rabbitMaxAge: 30
+  rabbitBreedingStartingLevel: 5
+  rabbitBreedingHungerRequirement: 5
+  rabbitHungerValue: 50
+  carrotHungerValue: 50
+  carrotMaxAge: 5
+  carrotSpawnInterval: 0.25

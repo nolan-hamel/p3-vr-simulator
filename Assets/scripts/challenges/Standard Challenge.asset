@@ -23,4 +23,5 @@ MonoBehaviour:
   rabbitBreedingHungerRequirement: 50
   rabbitHungerValue: 10
   carrotHungerValue: 10
+  carrotMaxAge: 50
   carrotSpawnInterval: 1

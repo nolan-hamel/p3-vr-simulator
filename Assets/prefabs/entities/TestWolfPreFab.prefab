@@ -123,20 +123,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61962f1b7eaf548b18450aec4272de02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerFrequency: 1
-  hungerLevel: 100
-  hungerOrigLevel: 100
-  WolfHungerValue: 100
-  myPrefab: {fileID: 0}
-  breedTimer: 10
-  breedOrig: 10
-  radius: 40
-  angle: 0
+  manager: {fileID: 0}
   obstructionMask:
     serializedVersion: 2
     m_Bits: 0
-  age: 200
+  radius: 40
+  female: 0
+  offspringPrefab: {fileID: 6978696602495591142}
+  breedingHungerRequirement: 50
+  hungerStartingLevel: 100
   maxAge: 200
+  breedingStartingLevel: 50
+  hungerValue: 100
 --- !u!195 &6978696602495591160
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -147,7 +145,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5000001
-  m_Speed: 5
+  m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

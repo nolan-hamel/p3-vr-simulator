@@ -11,15 +11,14 @@ public class spawnCarrot : MonoBehaviour
     public GameObject plane;
     public float spawnInterval;
 
-
-    private void Awake()
+    private void Start()
     {
-        spawnInterval = manager.activeChallenge.carrotSpawnInterval;
+        InvokeRepeating("instantiatePrefab", 0, spawnInterval);
     }
 
-    void Start()
+    private void OnEnable()
     {
-        InvokeRepeating("instantiatePrefab", 10.0f, spawnInterval);
+        spawnInterval = manager.activeChallenge.carrotSpawnInterval;
     }
 
     private static Vector3 RandomPointInBounds(Bounds bounds)

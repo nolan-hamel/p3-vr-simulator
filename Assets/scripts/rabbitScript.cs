@@ -22,8 +22,7 @@ public class rabbitScript : MonoBehaviour
     //public float angle;
     public LayerMask obstructionMask;
 
-    private bool female = true;
-
+    [SerializeField] bool female = false;
     [SerializeField] GameObject offspringPrefab;
 
     // Challenge Manager Fields
@@ -42,11 +41,14 @@ public class rabbitScript : MonoBehaviour
     private float hungerFrequency = 1;
 
 
-    private void Awake()
+    private void OnEnable()
     {
         // getting challenge manager
-        manager = transform.parent.GetComponent<ChallengeManager>();
-
+        if (!manager)
+        {
+            manager = transform.parent.GetComponent<ChallengeManager>();
+        }
+        
         // assigning starting values based on challenge manager
         breedingHungerRequirement = manager.activeChallenge.rabbitBreedingHungerRequirement;
         hungerStartingLevel = manager.activeChallenge.rabbitHungerStartingLevel;
@@ -60,9 +62,13 @@ public class rabbitScript : MonoBehaviour
         age = maxAge;
 
         // setting gender
-        int check = Random.Range(0, 2);
-        if (check == 0) female = false;
-        else female = true;
+        if (!female)
+        {
+            int check = Random.Range(0, 2);
+            if (check == 0) female = false;
+            else female = true;
+        }
+        
 
     }
 
@@ -87,7 +93,6 @@ public class rabbitScript : MonoBehaviour
     
     public void DestroySelf()
     {
-        Debug.Log("destroySelf method");
         Destroy(this.gameObject);
     }
 
@@ -99,7 +104,6 @@ public class rabbitScript : MonoBehaviour
         // die if no hunger
         if (hungerLevel == 0)
         {
-            Debug.Log("hunger level");
             DestroySelf();
         }
     }
@@ -114,7 +118,6 @@ public class rabbitScript : MonoBehaviour
             n.position = new Vector3(n.position.x, n.position.y, n.position.z + 3);
             Instantiate(offspringPrefab, n.position, Quaternion.identity, manager.transform);
             breedingLevel = breedingStartingLevel;
-            Debug.Log($"{transform.name} reproduced!");
         }
     }
 
@@ -123,27 +126,42 @@ public class rabbitScript : MonoBehaviour
         age -= 1;
         if(age == 0)
         {
-            Debug.Log("age");
             DestroySelf();
         }
     }
 
     // Hunting
 
-    private void OnCollisionEnter(Collision collision)
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    // checking if something to eat
+    //    if (collision.gameObject.CompareTag("Carrot"))
+    //    {
+    //        if (collision.transform.TryGetComponent(out carrotScript val))
+    //        {
+    //            hungerLevel += val.hungerValue;
+    //            if (hungerLevel > hungerStartingLevel) hungerLevel = hungerStartingLevel;
+    //            //hungerFrequency = Random.Range(1, 5);
+    //        }
+    //        //rabbitEatEvent.Invoke();
+    //        Destroy(collision.gameObject);
+    //        Debug.Log($"{transform.name} ate a carrot!");
+    //    }
+    //}
+
+    private void OnTriggerEnter(Collider other)
     {
         // checking if something to eat
-        if (collision.gameObject.CompareTag("Carrot"))
+        if (other.gameObject.CompareTag("Carrot"))
         {
-            if (collision.transform.TryGetComponent(out carrotScript val))
+            if (other.transform.TryGetComponent(out carrotScript val))
             {
                 hungerLevel += val.hungerValue;
                 if (hungerLevel > hungerStartingLevel) hungerLevel = hungerStartingLevel;
                 //hungerFrequency = Random.Range(1, 5);
             }
             //rabbitEatEvent.Invoke();
-            Destroy(collision.gameObject);
-            Debug.Log($"{transform.name} ate a carrot!");
+            Destroy(other.gameObject);
         }
     }
 
