@@ -20,9 +20,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (agent.hasPath == false && flag == false)
+        if (agent.hasPath)
         {
-            flag = true;
             RandDest();
         }
     }
@@ -41,13 +40,15 @@ public class PlayerController : MonoBehaviour
             if (NavMesh.SamplePosition(transform.position, out check, 1.0f, NavMesh.AllAreas))
             {
                 agent.SetDestination(hit.position);
-                flag = false;
             }
             else
             {
                 Debug.Log("Agent not on mesh!");
             }
-            
+        }
+        else
+        {
+            Debug.Log($"Sample Position failed! for {transform.name}");
         }
         
     }

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd9518add336dc418a0581c9622e3d6, type: 3}
+  m_Name: Spawning Test Challenge
+  m_EditorClassIdentifier: 
+  wolfHungerStartingLevel: 1000
+  wolfMaxAge: 1000
+  wolfBreedingStartingLevel: 1000
+  wolfBreedingHungerRequirement: 1000
+  wolfHungerValue: 0
+  wolfStartingCount: 0
+  rabbitHungerStartingLevel: 1000
+  rabbitMaxAge: 1000
+  rabbitBreedingStartingLevel: 1000
+  rabbitBreedingHungerRequirement: 1000
+  rabbitHungerValue: 0
+  rabbitStartingCount: 10
+  carrotHungerValue: 0
+  carrotMaxAge: 1000
+  carrotSpawnInterval: 1000
+  timeLimit: 600

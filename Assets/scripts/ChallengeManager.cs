@@ -24,7 +24,7 @@ public class ChallengeManager : MonoBehaviour
     [SerializeField] const float MENU_Y_ADJ = 1;
     [SerializeField] const float MENU_Z_ADJ = -0.625f;
 
-    [SerializeField] const float CHAL_Y_ADJ = -211f;
+    [SerializeField] float CHAL_Y_ADJ = -211f;
 
     // Stats 
     [SerializeField] float popPollDelay = 1;  

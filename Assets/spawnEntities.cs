@@ -20,7 +20,7 @@ public class spawnEntities : MonoBehaviour
     private float timeSinceSpawn = 0;
 
     // Position adjustements
-    const float RW_SPAWN_HEIGHT = 1.2f;
+    const float RW_SPAWN_HEIGHT = 2;
     const float C_SPAWN_HEIGHT = 0.2f;
     //[SerializeField] Vector3 challengeCenter = new Vector3(0, 210, 0);
     [SerializeField] float spawnRange = 100;
@@ -80,10 +80,19 @@ public class spawnEntities : MonoBehaviour
         {           
             Vector3 hitPosition = hit.point;
             hitPosition.y += spawnHeightAdj;
-            GameObject instance = Instantiate(prefab, hitPosition, Quaternion.identity, manager.transform);
-            if (prefab.CompareTag("Rabbit") || prefab.CompareTag("Wolf"))
-                Debug.Log($"Instantating {prefab.tag} from point: {hitPosition}");
-            return instance;
+            NavMeshHit check;
+            if (NavMesh.SamplePosition(hitPosition, out check, 3, NavMesh.AllAreas))
+            {
+                GameObject instance = Instantiate(prefab, check.position, Quaternion.identity, manager.transform);
+                if (prefab.CompareTag("Rabbit") || prefab.CompareTag("Wolf"))
+                    Debug.Log($"Instantating {prefab.tag} from point: {check.position}");
+                return instance;
+            }
+            else
+            {
+                Debug.Log($"Failed to instantiate {prefab.tag}, point not close to a NavMesh!");
+                return null;
+            }
         }
         else
         {
@@ -104,7 +113,7 @@ public class spawnEntities : MonoBehaviour
             }
             else
             {
-                Debug.Log("Spawning of initial rabbit failed!");
+                //Debug.Log("Spawning of initial rabbit failed!");
             }
 
         }
@@ -117,7 +126,7 @@ public class spawnEntities : MonoBehaviour
             }
             else
             {
-                Debug.Log("Spawning of initial wolf failed!");
+                //Debug.Log("Spawning of initial wolf failed!");
             }
 
         }
