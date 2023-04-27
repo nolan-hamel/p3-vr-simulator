@@ -17,6 +17,14 @@ public class SpawnOnCollision : MonoBehaviour
     [SerializeField] private float shrapnelDrag = 0.1f;
 
 
+    private void Start()
+    {
+        if (!manager)
+        {
+            manager = GameObject.FindGameObjectWithTag("ChallengeManager").GetComponent<ChallengeManager>();
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.relativeVelocity.magnitude >= spawnVelocityThreshold && collision.gameObject.tag == "ground")

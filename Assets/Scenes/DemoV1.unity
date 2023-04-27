@@ -5434,7 +5434,7 @@ Transform:
   m_GameObject: {fileID: 388341948}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.48884693, y: 1.3273182, z: 7.4811916}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 25, y: 25, z: 25}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 353050106}
@@ -5814,6 +5814,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 839041201}
+    - target: {fileID: 8255793149194147244, guid: 8030819319b273f488f3ca81d57de986,
+        type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 1573644073}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11845,7 +11850,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 38c96949367a23e48920c8ab2f0ebc46, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 5db66ed78226bca46bb468262b94dd07, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1302040648
 Transform:
@@ -11950,6 +11955,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1807016999}
+    - target: {fileID: 8255793149194147244, guid: 006ca6c9f9f866c4fafbab5c81ce1f56,
+        type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 1573644073}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13242,7 +13252,7 @@ MonoBehaviour:
   playerReference: {fileID: 1734051835}
   menuLocation: {fileID: 1837176559}
   challengeLocation: {fileID: 353050106}
-  CHAL_Y_ADJ: 1.3
+  CHAL_Y_ADJ: -3
   popPollDelay: 1
   scoreDisplayText: {fileID: 1695682773}
   activeScore: 0
@@ -17559,6 +17569,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 149853545}
+    - target: {fileID: 8255793149194147244, guid: 1207691eef39fbe47b74adefd0ffe614,
+        type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 1573644073}
     - target: {fileID: 8255793149194147245, guid: 1207691eef39fbe47b74adefd0ffe614,
         type: 3}
       propertyPath: m_InteractionManager

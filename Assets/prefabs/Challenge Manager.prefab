@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8436806813167673203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8436806813167673201}
+  - component: {fileID: 8436806813167673202}
+  m_Layer: 0
+  m_Name: Challenge Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8436806813167673201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8436806813167673203}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 98.487656, y: 98.34646, z: 100.55786}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8436806813167673202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8436806813167673203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46e5a16d0fd3df42b42b9ad85a5c392, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  challenges:
+  - {fileID: 11400000, guid: 130c0353433e4f546bc1b9b5ee2c19a0, type: 2}
+  - {fileID: 11400000, guid: c99ef88a1dda97d4ab593541a851c4f3, type: 2}
+  activeChallenge: {fileID: 11400000, guid: 130c0353433e4f546bc1b9b5ee2c19a0, type: 2}
+  spawnScript: {fileID: 0}
+  runningTime: 0
+  runningChallenge: 0
+  playerReference: {fileID: 0}
+  menuLocation: {fileID: 0}
+  challengeLocation: {fileID: 0}
+  CHAL_Y_ADJ: -3
+  popPollDelay: 1
+  scoreDisplayText: {fileID: 0}
+  activeScore: 0
