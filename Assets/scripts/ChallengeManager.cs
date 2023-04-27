@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class ChallengeManager : MonoBehaviour
 {
@@ -15,10 +16,13 @@ public class ChallengeManager : MonoBehaviour
     [SerializeField] float runningTime = 0;
     [SerializeField] bool runningChallenge = false;
 
-    // Position
-    [SerializeField] GameObject player;
-    [SerializeField] Vector3 menuLocation;
-    [SerializeField] Vector3 challengeLocation;
+    // Teleporting (Moving Around)
+    [SerializeField] GameObject playerReference;
+    [SerializeField] Transform menuLocation;
+    [SerializeField] Transform challengeLocation;
+    [SerializeField] const float MENU_X_ADJ = 1.625f;
+    [SerializeField] const float MENU_Y_ADJ = 1;
+    [SerializeField] const float MENU_Z_ADJ = -0.625f;
 
     // Stats 
     [SerializeField] float popPollDelay = 1;  
@@ -31,7 +35,7 @@ public class ChallengeManager : MonoBehaviour
 
     void Start()
     {
-        //DeactivateChallenge();
+ 
     }
 
     // Update is called once per frame
@@ -70,6 +74,15 @@ public class ChallengeManager : MonoBehaviour
 
     public void ActivateChallenge()
     {
+        // moving 
+        challengeLocation.position = new Vector3(playerReference.transform.position.x, playerReference.transform.position.y - 1, playerReference.transform.position.z);
+        menuLocation.position = new Vector3(1000, 1000, 1000);
+        MeshRenderer mesh = menuLocation.GetComponent<MeshRenderer>();
+        if (mesh)
+        {
+            mesh.ResetBounds();
+        }
+
         // Enabling entities
         spawnScript.enabled = true;
 
@@ -78,9 +91,6 @@ public class ChallengeManager : MonoBehaviour
         runningChallenge = true;
 
         timeSincePopPoll = 0;
-
-        // teleporting to challenge location
-        player.transform.position = challengeLocation;
 
         // Scoring
         activeScore = 0;
@@ -102,7 +112,9 @@ public class ChallengeManager : MonoBehaviour
         runningChallenge = false;
 
         // teleporting to main menu
-        player.transform.position = menuLocation;
+        menuLocation.position = new Vector3(playerReference.transform.position.x + MENU_X_ADJ, playerReference.transform.position.y + MENU_Y_ADJ, playerReference.transform.position.z + MENU_Z_ADJ);
+        challengeLocation.position = new Vector3(1000, 1000, 1000);
+
 
         CalculateScore();
     }

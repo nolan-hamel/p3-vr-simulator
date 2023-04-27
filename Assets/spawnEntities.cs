@@ -18,6 +18,10 @@ public class spawnEntities : MonoBehaviour
     // Timing
     private float timeSinceSpawn = 0;
 
+    // position adjustements
+    const float RW_SPAWN_HEIGHT = 1;
+    const float C_SPAWN_HEIGHT = 0.2f;
+
     void Update()
     {
         timeSinceSpawn += Time.deltaTime;
@@ -43,15 +47,15 @@ public class spawnEntities : MonoBehaviour
         wolfStartingCount = manager.activeChallenge.wolfStartingCount;
 
         // Spawning Starting Counts
-        for(int i = 0; i < rabbitStartingCount; i++)
-        {
-            Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, 1);
+        for (int i = 0; i < rabbitStartingCount; i++)
+        {       
+            Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, transform.position.y + RW_SPAWN_HEIGHT);
             GameObject rabbit = Instantiate(rabbitPrefab, randomPoint, Quaternion.identity, manager.transform);
             rabbit.GetComponent<rabbitScript>().female = true;
         }
         for(int i = 0; i < wolfStartingCount; i++)
         {
-            Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, 1);
+            Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, transform.position.y + RW_SPAWN_HEIGHT);
             GameObject wolf = Instantiate(wolfPrefab, randomPoint, Quaternion.identity, manager.transform);
             wolf.GetComponent<wolfScript>().female = true;
         }
@@ -73,7 +77,7 @@ public class spawnEntities : MonoBehaviour
 
     private void InstantiateCarrot()
     {
-        Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, 0.2f);
+        Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, transform.position.y + C_SPAWN_HEIGHT);
         Instantiate(carrotPrefab, randomPoint, Quaternion.identity, manager.transform);
     }
 }
