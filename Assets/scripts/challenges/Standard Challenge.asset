@@ -17,13 +17,13 @@ MonoBehaviour:
   wolfBreedingStartingLevel: 50
   wolfBreedingHungerRequirement: 50
   wolfHungerValue: 100
-  wolfStartingCount: 0
+  wolfStartingCount: 5
   rabbitHungerStartingLevel: 100
   rabbitMaxAge: 200
   rabbitBreedingStartingLevel: 10
   rabbitBreedingHungerRequirement: 50
   rabbitHungerValue: 10
-  rabbitStartingCount: 0
+  rabbitStartingCount: 10
   carrotHungerValue: 10
   carrotMaxAge: 50
   carrotSpawnInterval: 1
