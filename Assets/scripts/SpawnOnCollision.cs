@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnOnCollision : MonoBehaviour
 {
+    [SerializeField] ChallengeManager manager;
+
     [SerializeField] private GameObject prefabToSpawn;
     [SerializeField] private int numToSpawn = 1;
     [SerializeField] private float spawnVelocityThreshold = 10f;
@@ -25,7 +27,7 @@ public class SpawnOnCollision : MonoBehaviour
                 Vector3 spawnPosition = collision.contacts[0].point + Random.insideUnitSphere * spawnRadius;
                 spawnPosition.y += spawnRadius;
                 // Spawn the prefab at the random position
-                GameObject spawnedPrefab = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+                GameObject spawnedPrefab = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity, manager.transform);
                 // Apply an explosion force to the spawned prefab
                 Rigidbody spawnedPrefabRigidbody = spawnedPrefab.GetComponent<Rigidbody>();
                 // Set the mass and drag properties of the spawned prefab Rigidbody
