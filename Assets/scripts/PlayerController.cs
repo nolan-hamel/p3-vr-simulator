@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Unity.AI;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
     {
         agent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
         floorRange = GameObject.Find("Plane").GetComponent<Renderer>().bounds;
-        randDest();
+        RandDest();
     }
 
     // Update is called once per frame
@@ -22,20 +23,32 @@ public class PlayerController : MonoBehaviour
         if (agent.hasPath == false && flag == false)
         {
             flag = true;
-            randDest();
+            RandDest();
         }
     }
 
-    private void randDest()
+    private void RandDest()
     {
         float rx = Random.Range(floorRange.min.x, floorRange.max.x);
         float rz = Random.Range(floorRange.min.z, floorRange.max.z);
         dest = new Vector3(rx, this.transform.position.y, rz);
         //agent.SetDestination(dest);
-        UnityEngine.AI.NavMeshHit hit;
+        NavMeshHit hit;
         float distanceToCheck = 10;
-        UnityEngine.AI.NavMesh.SamplePosition(dest, out hit, distanceToCheck, UnityEngine.AI.NavMesh.AllAreas);
-        agent.SetDestination(hit.position);
-        flag = false;
+        if (NavMesh.SamplePosition(dest, out hit, distanceToCheck, NavMesh.AllAreas))
+        {
+            NavMeshHit check;
+            if (NavMesh.SamplePosition(transform.position, out check, 1.0f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+                flag = false;
+            }
+            else
+            {
+                Debug.Log("Agent not on mesh!");
+            }
+            
+        }
+        
     }
 }

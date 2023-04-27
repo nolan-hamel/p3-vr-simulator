@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Events;
 
 public class spawnEntities : MonoBehaviour
@@ -18,9 +19,16 @@ public class spawnEntities : MonoBehaviour
     // Timing
     private float timeSinceSpawn = 0;
 
-    // position adjustements
-    const float RW_SPAWN_HEIGHT = 1;
+    // Position adjustements
+    const float RW_SPAWN_HEIGHT = 1.2f;
     const float C_SPAWN_HEIGHT = 0.2f;
+    //[SerializeField] Vector3 challengeCenter = new Vector3(0, 210, 0);
+    [SerializeField] float spawnRange = 100;
+
+    private void Start()
+    {
+
+    }
 
     void Update()
     {
@@ -28,7 +36,7 @@ public class spawnEntities : MonoBehaviour
         if (timeSinceSpawn >= carrotSpawnInterval)
         {
             timeSinceSpawn = 0;
-            InstantiateCarrot();
+            InstantiateOnMesh(carrotPrefab, C_SPAWN_HEIGHT);
         }
     }
 
@@ -46,19 +54,7 @@ public class spawnEntities : MonoBehaviour
         rabbitStartingCount = manager.activeChallenge.rabbitStartingCount;
         wolfStartingCount = manager.activeChallenge.wolfStartingCount;
 
-        // Spawning Starting Counts
-        for (int i = 0; i < rabbitStartingCount; i++)
-        {       
-            Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, transform.position.y + RW_SPAWN_HEIGHT);
-            GameObject rabbit = Instantiate(rabbitPrefab, randomPoint, Quaternion.identity, manager.transform);
-            rabbit.GetComponent<rabbitScript>().female = true;
-        }
-        for(int i = 0; i < wolfStartingCount; i++)
-        {
-            Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, transform.position.y + RW_SPAWN_HEIGHT);
-            GameObject wolf = Instantiate(wolfPrefab, randomPoint, Quaternion.identity, manager.transform);
-            wolf.GetComponent<wolfScript>().female = true;
-        }
+        Invoke("SpawnInitialEntities", 2);
     }
 
     private void OnDisable()
@@ -75,9 +71,55 @@ public class spawnEntities : MonoBehaviour
         );
     }
 
-    private void InstantiateCarrot()
+    private GameObject InstantiateOnMesh(GameObject prefab, float spawnHeightAdj)
     {
-        Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, transform.position.y + C_SPAWN_HEIGHT);
-        Instantiate(carrotPrefab, randomPoint, Quaternion.identity, manager.transform);
+        Vector3 randomPoint = RandomPointInBounds(transform.GetComponent<MeshRenderer>().bounds, transform.position.y);
+        randomPoint.y = 1000;
+        RaycastHit hit;
+        if (Physics.Raycast(randomPoint, Vector3.down, out hit, Mathf.Infinity, LayerMask.GetMask("Spawnable")))
+        {           
+            Vector3 hitPosition = hit.point;
+            hitPosition.y += spawnHeightAdj;
+            GameObject instance = Instantiate(prefab, hitPosition, Quaternion.identity, manager.transform);
+            if (prefab.CompareTag("Rabbit") || prefab.CompareTag("Wolf"))
+                Debug.Log($"Instantating {prefab.tag} from point: {hitPosition}");
+            return instance;
+        }
+        else
+        {
+            Debug.Log($"Failed to instantiate from point: {randomPoint}");
+            return null;
+        }
+    }
+
+    private void SpawnInitialEntities()
+    {
+        // Spawning Starting Counts
+        for (int i = 0; i < rabbitStartingCount; i++)
+        {
+            GameObject rabbit = InstantiateOnMesh(rabbitPrefab, RW_SPAWN_HEIGHT);
+            if (rabbit)
+            {
+                rabbit.GetComponent<rabbitScript>().female = true;
+            }
+            else
+            {
+                Debug.Log("Spawning of initial rabbit failed!");
+            }
+
+        }
+        for (int i = 0; i < wolfStartingCount; i++)
+        {
+            GameObject wolf = InstantiateOnMesh(wolfPrefab, RW_SPAWN_HEIGHT);
+            if (wolf)
+            {
+                wolf.GetComponent<wolfScript>().female = true;
+            }
+            else
+            {
+                Debug.Log("Spawning of initial wolf failed!");
+            }
+
+        }
     }
 }

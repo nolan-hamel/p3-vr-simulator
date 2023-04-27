@@ -24,6 +24,8 @@ public class ChallengeManager : MonoBehaviour
     [SerializeField] const float MENU_Y_ADJ = 1;
     [SerializeField] const float MENU_Z_ADJ = -0.625f;
 
+    [SerializeField] const float CHAL_Y_ADJ = -211f;
+
     // Stats 
     [SerializeField] float popPollDelay = 1;  
     private float timeSincePopPoll;
@@ -35,7 +37,10 @@ public class ChallengeManager : MonoBehaviour
 
     void Start()
     {
- 
+        if (runningChallenge)
+        {
+            DeactivateChallenge();
+        }
     }
 
     // Update is called once per frame
@@ -74,10 +79,13 @@ public class ChallengeManager : MonoBehaviour
 
     public void ActivateChallenge()
     {
+
+        Debug.Log("Challenge Activated");
+
         // moving 
-        challengeLocation.position = new Vector3(playerReference.transform.position.x, playerReference.transform.position.y - 1, playerReference.transform.position.z);
+        challengeLocation.position = new Vector3(playerReference.transform.position.x, playerReference.transform.position.y + CHAL_Y_ADJ, playerReference.transform.position.z);
         menuLocation.position = new Vector3(1000, 1000, 1000);
-        MeshRenderer mesh = menuLocation.GetComponent<MeshRenderer>();
+        MeshRenderer mesh = challengeLocation.GetComponent<MeshRenderer>();
         if (mesh)
         {
             mesh.ResetBounds();
@@ -126,9 +134,9 @@ public class ChallengeManager : MonoBehaviour
         List<float> rabbitWolfRatios = new List<float>();
         foreach(PopulationStatsStruct popStat in popStats)
         {
-            float carrotRabbitRatio = popStat.carrotPop / popStat.rabbitPop;
+            float carrotRabbitRatio = popStat.rabbitPop != 0 ? popStat.carrotPop / popStat.rabbitPop : 1 ;
             carrotRabbitRatios.Add(carrotRabbitRatio);
-            float rabbitWolfRatio = popStat.rabbitPop / popStat.wolfPop;
+            float rabbitWolfRatio = popStat.wolfPop != 0 ? popStat.rabbitPop / popStat.wolfPop : 1;
             rabbitWolfRatios.Add(rabbitWolfRatio);
         }
 
@@ -142,7 +150,7 @@ public class ChallengeManager : MonoBehaviour
         }
 
         // Calculating Score based on values
-        activeScore = (int) Mathf.Ceil((carrotRabbitTotalDiff + rabbitWolfTotalDiff) * 10);
+        activeScore = (int) Mathf.Ceil((1 / (carrotRabbitTotalDiff + rabbitWolfTotalDiff)));
         scoreDisplayText.text = activeScore.ToString();
 
     }
