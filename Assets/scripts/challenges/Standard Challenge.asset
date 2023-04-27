@@ -27,4 +27,4 @@ MonoBehaviour:
   carrotHungerValue: 10
   carrotMaxAge: 50
   carrotSpawnInterval: 1
-  timeLimit: 30
+  timeLimit: 600
