@@ -22,7 +22,7 @@ public class rabbitScript : MonoBehaviour
     //public float angle;
     public LayerMask obstructionMask;
 
-    [SerializeField] bool female = false;
+    public bool female = false;
     [SerializeField] GameObject offspringPrefab;
 
     // Challenge Manager Fields

@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5181319361432698882
 MeshFilter:
@@ -101,7 +101,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -121,7 +121,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e2d777f0641a421f8fb4eddd7e0d011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HungerValue: 10
+  manager: {fileID: 0}
+  agingFrequency: 1
+  maxAge: 100
+  age: 0
+  hungerValue: 10
 --- !u!54 &5181319361432698880
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -144,7 +148,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

@@ -49,10 +49,6 @@ public class VRButtonController : MonoBehaviour
         {
             pushable.transform.localPosition = new Vector3(0, pressedHeight, 0);
             lastPresser = other.gameObject;
-            while (lastPresser.transform.parent != null)
-            {
-                lastPresser = lastPresser.transform.parent.gameObject;
-            }
             onPress.Invoke();
             isPressed = true;
         }

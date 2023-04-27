@@ -28,7 +28,7 @@ public class wolfScript : MonoBehaviour
     //public float angle;
 
     // Breeding
-    [SerializeField] bool female = false;
+    public bool female = false;
     [SerializeField] GameObject offspringPrefab;
 
     // Settable Levels
