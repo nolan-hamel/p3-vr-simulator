@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd9518add336dc418a0581c9622e3d6, type: 3}
-  m_Name: Standard Challenge
+  m_Name: Challenge 3
   m_EditorClassIdentifier: 
-  wolfHungerStartingLevel: 100
-  wolfMaxAge: 200
-  wolfBreedingStartingLevel: 50
-  wolfBreedingHungerRequirement: 50
+  wolfHungerStartingLevel: 60
+  wolfMaxAge: 180
+  wolfBreedingStartingLevel: 10
+  wolfBreedingHungerRequirement: 0
   wolfHungerValue: 100
-  wolfStartingCount: 5
-  rabbitHungerStartingLevel: 100
-  rabbitMaxAge: 200
-  rabbitBreedingStartingLevel: 10
-  rabbitBreedingHungerRequirement: 50
-  rabbitHungerValue: 10
-  rabbitStartingCount: 10
+  wolfStartingCount: 1
+  rabbitHungerStartingLevel: 60
+  rabbitMaxAge: 45
+  rabbitBreedingStartingLevel: 5
+  rabbitBreedingHungerRequirement: 0
+  rabbitHungerValue: 30
+  rabbitStartingCount: 25
   carrotHungerValue: 10
   carrotMaxAge: 50
-  carrotSpawnInterval: 1
-  timeLimit: 45
+  carrotSpawnInterval: 0.25
+  timeLimit: 30

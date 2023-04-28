@@ -150,7 +150,7 @@ public class ChallengeManager : MonoBehaviour
         }
 
         // Calculating Score based on values
-        activeScore = (int) Mathf.Ceil((1 / (carrotRabbitTotalDiff + rabbitWolfTotalDiff)));
+        activeScore = (int) Mathf.Ceil((1 / (carrotRabbitTotalDiff + rabbitWolfTotalDiff) * 1000));
         scoreDisplayText.text = activeScore.ToString();
 
     }
