@@ -38113,7 +38113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca8de7583c3c7074681c2729712f8817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabToSpawn: {fileID: 4015472160423535577, guid: 97bae9724a3cd5c44ade23ed872f0c7e,
+  prefabToSpawn: {fileID: 4015472160423535577, guid: 29fb5f8ab8780694c82bb7d7cc83a575,
     type: 3}
   numToSpawn: 100
   spawnVelocityThreshold: 5

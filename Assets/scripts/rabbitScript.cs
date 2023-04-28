@@ -101,18 +101,26 @@ public class rabbitScript : MonoBehaviour
 
     //hunting
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Carrot")
         {
             if (collision.transform.TryGetComponent(out carrotScript val))
             {
-                hungerLevel = hungerLevel + val.HungerValue;
-                if (hungerLevel > 100) hungerLevel = 100;
-                hungerFrequency = Random.Range(1, 5);
+                if(hungerLevel < 90)
+                {
+                    hungerLevel = hungerLevel + val.HungerValue;
+                    if (hungerLevel > 100)
+                    {
+                        hungerLevel = 100;
+                    }
+                    Destroy(collision.gameObject);
+                    hungerFrequency = Random.Range(1, 5);
+                }
+
+
             }
             //rabbitEatEvent.Invoke();
-            Destroy(collision.gameObject);
         }
     }
 

@@ -100,17 +100,23 @@ public class wolfScript : MonoBehaviour
 
     //hunting
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Rabbit")
         {
-            if (collision.transform.TryGetComponent(out carrotScript val))
+            if (collision.transform.TryGetComponent(out rabbitScript val))
             {
-                hungerLevel = hungerLevel + val.HungerValue;
-                if (hungerLevel > 100) hungerLevel = 100;
-                hungerFrequency = Random.Range(1, 5);
+                if (hungerLevel < 80)
+                {
+                    hungerLevel = hungerLevel + val.RabbitHungerValue;
+                    if (hungerLevel > 100)
+                    {
+                        hungerLevel = 100;
+                    }
+                    Destroy(collision.gameObject);
+                    hungerFrequency = Random.Range(1, 5);
+                }
             }
-            Destroy(collision.gameObject);
         }
     }
 
@@ -121,7 +127,7 @@ public class wolfScript : MonoBehaviour
         while (true)
         {
             yield return wait;
-            if (hungerLevel < 60)
+            if (hungerLevel < 80)
             {
                 FieldOfViewCheck();
             }
